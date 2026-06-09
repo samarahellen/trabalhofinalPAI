@@ -268,6 +268,49 @@ def apply_median(matrix, size):
             ]
             result[y][x] = median_value
     return result
+# ==========================================================
+# COMPLEMENTO DA IMAGEM
+# ==========================================================
+
+def apply_complement(matrix):
+    height, width = matrix.shape
+
+    result = np.zeros(
+        (height, width),
+        dtype=np.uint8
+    )
+
+    for y in range(height):
+        for x in range(width):
+            result[y][x] = 255 - int(matrix[y][x])
+
+    return result
+
+
+# ==========================================================
+# HISTOGRAMA
+# ==========================================================
+
+def calculate_histogram(matrix):
+
+    histogram = []
+
+    # cria 256 posições manualmente
+    for i in range(256):
+        histogram.append(0)
+
+    height, width = matrix.shape
+
+    for y in range(height):
+        for x in range(width):
+
+            pixel = int(
+                matrix[y][x]
+            )
+
+            histogram[pixel] += 1
+
+    return histogram
     
 # ==========================================================
 # PROCESSAMENTO DOS BLOCOS
@@ -340,6 +383,25 @@ def process_image():
                 matrix,
                 size
             )
+
+        # COMPLEMENTO
+        elif block == "complement":
+
+            result = apply_complement(
+                matrix
+            )
+
+        # HISTOGRAMA
+        elif block == "histogram":
+
+            histogram = calculate_histogram(
+                matrix
+            )
+
+            return jsonify({
+                'histogram': histogram
+            })
+
         else:
             return jsonify({
                 'error': f'Bloco "{block}" não implementado'
