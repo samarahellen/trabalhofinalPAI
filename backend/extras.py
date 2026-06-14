@@ -1,7 +1,7 @@
 import numpy as np
 
-from backend.morphology import *
-from backend.structural_elements import make_element
+from morphology import *
+from structural_elements import make_element
 
 
 # ==========================================================
